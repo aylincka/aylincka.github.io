@@ -1,0 +1,136 @@
+/* Temel sıfırlama ve renk değişkenleri */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+}
+:root {
+  --bg-light: #e4d7a0;
+  --text-light: #4a3f2f;
+  --btn-bg-light: #8c7b5b;
+  --btn-hover-light: #a08c6a;
+  --bg-dark: #1e1e1e;
+  --text-dark: #f0f0f0;
+  --btn-bg-dark: #444;
+  --btn-hover-dark: #666;
+}
+
+#theme-toggle,
+#lang-toggle {
+  display: none;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-light);
+  background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  color: var(--text-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 0;
+}
+#theme-toggle:checked ~ .wrapper {
+  background-color: var(--bg-dark);
+  background-image: none;
+  color: var(--text-dark);
+}
+
+/* Dil toggling: .tr ve .en öğelerini göster/gizle */
+#lang-toggle ~ .wrapper .en { display: none; }
+#lang-toggle:checked ~ .wrapper .tr { display: none; }
+#lang-toggle:checked ~ .wrapper .en { display: inline; }
+
+.container {
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+p {
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.btn {
+  flex: 0 0 150px;
+  padding: 0.75rem 1rem;
+  background-color: var(--btn-bg-light);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  text-align: center;
+}
+#theme-toggle:checked ~ .wrapper .btn {
+  background-color: var(--btn-bg-dark);
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+.btn:hover:not(#toggle-label):not(#lang-label) {
+  background-color: var(--btn-hover-light);
+}
+#theme-toggle:checked ~ .wrapper .btn:hover:not(#toggle-label):not(#lang-label) {
+  background-color: var(--btn-hover-dark);
+}
+
+/* Tema ve dil değiştirici butonları ortak stil */
+#toggle-label,
+#lang-label {
+  position: absolute;
+  top: 1rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.3s;
+  z-index: 100;
+}
+#toggle-label:hover,
+#lang-label:hover {
+  background: rgba(255,255,255,0.2);
+}
+#toggle-label {
+  right: 1rem;
+}
+#lang-label {
+  right: calc(1rem + 3rem); 
+}
+/* Dil butonu içeriğini değiştirmek için pseudo-element kullanımı */
+#lang-label::after {
+  content: attr(data-en);
+}
+#lang-toggle:checked ~ #lang-label::after {
+  content: attr(data-tr);
+}
